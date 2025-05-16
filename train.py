@@ -7,7 +7,7 @@ from torch.optim import AdamW
 from utils import *
 from configs import parse_arguments
 from model import BertED
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from exemplars import Exemplars
 from copy import deepcopy
 from torch.utils.tensorboard import SummaryWriter   
@@ -181,16 +181,16 @@ def train(local_rank, args):
         logger.info(f'Previous learned types: {prev_learned_types}')
         dev_score = None
         no_better = 0
-        for ep in range(args.epochs):
+        for ep in tqdm(range(args.epochs), desc="Epoch", unit="epoch"):
             if stage == 0 and args.skip_first:
                 continue
-            logger.info('-' * 100)
-            logger.info(f"Stage {stage}: Epoch {ep}")
-            logger.info("Training process")
-            model.train()
-            logger.info("Training batch:")
+            # logger.info('-' * 100)
+            # logger.info(f"Stage {stage}: Epoch {ep}")
+            # logger.info("Training process")
+            # model.train()
+            # logger.info("Training batch:")
             iter_cnt = 0
-            for bt, batch in enumerate(tqdm(stage_loader)):
+            for bt, batch in enumerate(stage_loader):
                 iter_cnt += 1
 
                 train_x, train_y, train_masks, train_span = zip(*batch)
